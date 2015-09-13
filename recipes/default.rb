@@ -16,3 +16,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+include_recipe 'python'
+
+version = node['plone']['version']
+majorversion = version.split('.')[0..1].join('.')
+
+remote_file "#{Chef::Config[:file_cache_path]}/Plone-#{version}-UnifiedInstaller.tgz" do
+  source "#{node['plone']['unified_installer_download_parent']}/#{majorversion}/#{version}/+download/Plone-#{version}-UnifiedInstaller.tgz"
+  checksum node['plone']['checksum']
+  mode "0644"
+#  not_if { ::File.exists?(install_path) }
+end
